@@ -25,6 +25,7 @@ var player_part_object = preload("res://PlayerPart.gd")
 var player_parts = []
 
 func _ready():
+	
 	if Singleton.level != "":
 		level_text = Singleton.level
 	elif OS.has_feature('JavaScript'):
@@ -37,11 +38,12 @@ func _ready():
 			level_text = potential_level
 		
 		
-		
 	var level_1_line = level_text.replace("\n","")
 	level_1_line = level_1_line.replace("\r\n","")
 	level_1_line = level_1_line.replace("\r","")
 	print(level_1_line)
+	
+	Singleton.rng.set_seed(int(level_1_line)*96.125)
 
 	for y in range(height):
 		level.push_back([])
@@ -136,11 +138,12 @@ func attempt_move(x,y):
 					var new_explosion = explosion_tscn.instance()
 					add_child(new_explosion)
 					new_explosion.position = grid_to_world( Vector2(new_x+neighbor.x/2, new_y+neighbor.y/2) )
+					$Camera2D.add_trauma(.8)
 					
 					#add new
 					new_body_parts.push_back( player_part_object.new(Vector2(check_x,check_y), 
 						level[check_y][check_x].node) )
-					level[check_y][check_x].node.activate()
+					level[check_y][check_x].node.activate(neighbor)
 		player_parts = new_body_parts
 	else:
 		print("not a safe move!")

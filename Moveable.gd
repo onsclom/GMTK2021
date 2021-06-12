@@ -28,5 +28,17 @@ func _process(delta):
 func easeOutElastic(x):
 	return 1 - pow(1 - x, 5)
 
-func activate():
+func activate(neighbor):
 	$AnimatedSprite.playing = true
+	
+	$Connect.position = Vector2(-1,-1)*neighbor*8
+	if neighbor.y != 0:
+		$Connect.rotation_degrees = 90
+	
+	$Connect.visible = true
+	$Connect.playing = true
+
+
+func _on_Connect_animation_finished():
+	$Connect.visible = false
+	pass # Replace with function body.
