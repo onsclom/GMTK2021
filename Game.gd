@@ -138,7 +138,7 @@ func attempt_move(x,y):
 					var new_explosion = explosion_tscn.instance()
 					add_child(new_explosion)
 					new_explosion.position = grid_to_world( Vector2(new_x+neighbor.x/2, new_y+neighbor.y/2) )
-					$Camera2D.add_trauma(.8)
+					$Camera2D.add_trauma(1.0)
 					
 					#add new
 					new_body_parts.push_back( player_part_object.new(Vector2(check_x,check_y), 

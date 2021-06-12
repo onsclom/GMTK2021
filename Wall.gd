@@ -5,7 +5,7 @@ extends Node2D
 # var a = 2
 # var b = "text"
 var cur_idx = 0
-var probs = [.28,.08,.08,.08,.08,.08,.08,.04,.04,.04,.04]
+var probs = [.42,.08,.08,.08,.08,.08,.08,.02,.02,.02,.02]
 var cur_amount = probs[0]
 
 # Called when the node enters the scene tree for the first time.
@@ -19,6 +19,7 @@ func _ready():
 
 	
 	$AnimatedSprite.animation = str(cur_idx+1)
+	$AnimatedSprite.frame = Singleton.rng.randi()%$AnimatedSprite.frames.get_frame_count(str(cur_idx+1))
 	
 
 

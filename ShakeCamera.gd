@@ -1,8 +1,8 @@
 extends Camera2D
 class_name ShakeCamera2D
 
-export var decay = .8  # How quickly the shaking stops [0, 1].
-export var max_offset = Vector2(7, 7)  # Maximum hor/ver shake in pixels.
+export var decay = 1.0  # How quickly the shaking stops [0, 1].
+export var max_offset = Vector2(4, 4)  # Maximum hor/ver shake in pixels.
 export var max_roll = 0.1  # Maximum rotation in radians (use sparingly).
 export (NodePath) var target  # Assign the node this camera will follow.
 
