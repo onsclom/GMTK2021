@@ -11,9 +11,10 @@ var player_tscn = preload("res://Player.tscn")
 var ground_tscn = preload("res://Ground.tscn")
 var body_tscn = preload("res://Body.tscn")
 var finish_tscn = preload("res://Finish.tscn")
-
+var wall_tscn = preload("res://Wall.tscn")
 var square_object = preload("res://SquareObject.gd")
 enum {EMPTY, GROUND, PLAYER, BODY, FINISH}
+var WALL=EMPTY;
 
 var blocks = []
 
@@ -24,6 +25,16 @@ var player_parts = []
 func _ready():
 	if Singleton.level != "":
 		level_text = Singleton.level
+	elif OS.has_feature('JavaScript'):
+		var potential_level = JavaScript.eval(""" 
+				var url_string = window.location.href;
+				var url = new URL(url_string);
+				url.searchParams.get("level");
+			""")
+		if potential_level:
+			level_text = potential_level
+		
+		
 		
 	var level_1_line = level_text.replace("\n","")
 	level_1_line = level_1_line.replace("\r\n","")
@@ -39,36 +50,31 @@ func _ready():
 	
 	for y in range(height):
 		for x in range(width):
-			if level[y][x].tile_type != EMPTY:
-				match level[y][x].tile_type:
-					GROUND:
-						var new_block = ground_tscn.instance()
-						add_child(new_block)
-						new_block.position = Vector2(x*square_size+square_size/2, y*square_size+square_size/2)
-					PLAYER:
-						var new_block = ground_tscn.instance()
-						add_child(new_block)
-						new_block.position = Vector2(x*square_size+square_size/2, y*square_size+square_size/2)
-						var new_player = player_tscn.instance()
-						add_child(new_player)
-						new_player.position = Vector2(x*square_size+square_size/2, y*square_size+square_size/2)
-						player_parts.push_back( player_part_object.new(Vector2(x,y), new_player) )
-					BODY:
-						var new_block = ground_tscn.instance()
-						add_child(new_block)
-						new_block.position = Vector2(x*square_size+square_size/2, y*square_size+square_size/2)
-						var new_body = body_tscn.instance()
-						new_body.position = Vector2(x*square_size+square_size/2, y*square_size+square_size/2)
-						add_child(new_body)
-						level[y][x].node = new_body
-					FINISH:
-						var new_finish = finish_tscn.instance()
-						new_finish.position = Vector2(x*square_size+square_size/2, y*square_size+square_size/2)
-						add_child(new_finish)
-						level[y][x].node = new_finish
-					_:
-						print("unrecognized??")
-				var new_block = ground_tscn.instance()
+			match level[y][x].tile_type:
+				EMPTY:
+					var new_wall = wall_tscn.instance()
+					add_child(new_wall)
+					new_wall.position = Vector2(x*square_size+square_size/2, y*square_size+square_size/2)
+				GROUND:
+					pass	
+				PLAYER:
+					var new_player = player_tscn.instance()
+					add_child(new_player)
+					new_player.position = Vector2(x*square_size+square_size/2, y*square_size+square_size/2)
+					player_parts.push_back( player_part_object.new(Vector2(x,y), new_player) )
+				BODY:
+					var new_body = body_tscn.instance()
+					new_body.position = Vector2(x*square_size+square_size/2, y*square_size+square_size/2)
+					add_child(new_body)
+					level[y][x].node = new_body
+				FINISH:
+					var new_finish = finish_tscn.instance()
+					new_finish.position = Vector2(x*square_size+square_size/2, y*square_size+square_size/2)
+					add_child(new_finish)
+					level[y][x].node = new_finish
+				_:
+					print("unrecognized??")
+				
 
 func _process(delta):
 	if Input.is_action_just_pressed("ui_left"):
@@ -111,7 +117,7 @@ func attempt_move(x,y):
 			var new_y = part.position.y+y
 			
 			part.position = Vector2(new_x, new_y)
-			part.node.position = grid_to_world(part.position)
+			part.node.set_target( grid_to_world(part.position) )
 			
 			#readd original
 			new_body_parts.push_back( player_part_object.new(Vector2(new_x,new_y), part.node) )
