@@ -13,6 +13,8 @@ var body_tscn = preload("res://Body.tscn")
 var finish_tscn = preload("res://Finish.tscn")
 var wall_tscn = preload("res://Wall.tscn")
 var square_object = preload("res://SquareObject.gd")
+
+var explosion_tscn = preload("res://Explosion.tscn")
 enum {EMPTY, GROUND, PLAYER, BODY, FINISH}
 var WALL=EMPTY;
 
@@ -129,6 +131,12 @@ func attempt_move(x,y):
 				if level[check_y][check_x].tile_type == BODY:
 					level[check_y][check_x].tile_type = EMPTY
 					print("JOINED")
+					
+					#create spark inbetween two spots
+					var new_explosion = explosion_tscn.instance()
+					add_child(new_explosion)
+					new_explosion.position = grid_to_world( Vector2(new_x+neighbor.x/2, new_y+neighbor.y/2) )
+					
 					#add new
 					new_body_parts.push_back( player_part_object.new(Vector2(check_x,check_y), 
 						level[check_y][check_x].node) )
