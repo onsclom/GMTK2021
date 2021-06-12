@@ -2,7 +2,7 @@ extends Camera2D
 class_name ShakeCamera2D
 
 export var decay = 1.0  # How quickly the shaking stops [0, 1].
-export var max_offset = Vector2(4, 4)  # Maximum hor/ver shake in pixels.
+export var max_offset = Vector2(2, 2)  # Maximum hor/ver shake in pixels.
 export var max_roll = 0.1  # Maximum rotation in radians (use sparingly).
 export (NodePath) var target  # Assign the node this camera will follow.
 
@@ -30,8 +30,8 @@ func shake():
 	noise_y += 1
 	# Using noise
 	rotation = max_roll * amount * noise.get_noise_2d(noise.seed, noise_y)
-	offset.x = max_offset.x * amount * noise.get_noise_2d(noise.seed*2, noise_y)
-	offset.y = max_offset.y * amount * noise.get_noise_2d(noise.seed*3, noise_y)
+	position.x = get_node(target).position.x + max_offset.x * amount * noise.get_noise_2d(noise.seed*2, noise_y)
+	position.y = get_node(target).position.y + max_offset.y * amount * noise.get_noise_2d(noise.seed*3, noise_y)
 	if abs(offset.x)<1:
 		offset.x = 0
 	if abs(offset.y)<1:
