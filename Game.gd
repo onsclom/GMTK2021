@@ -132,6 +132,7 @@ func attempt_move(x,y):
 					#add new
 					new_body_parts.push_back( player_part_object.new(Vector2(check_x,check_y), 
 						level[check_y][check_x].node) )
+					level[check_y][check_x].node.activate()
 		player_parts = new_body_parts
 	else:
 		print("not a safe move!")

@@ -27,3 +27,6 @@ func _process(delta):
 
 func easeOutElastic(x):
 	return 1 - pow(1 - x, 5)
+
+func activate():
+	$AnimatedSprite.playing = true
