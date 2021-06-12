@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://art/neontest1.png" type="Texture" id=1]
+[ext_resource path="res://art/neontest2.png" type="Texture" id=2]
+[ext_resource path="res://WorldEnvironment.gd" type="Script" id=3]
+[ext_resource path="res://Game.gd" type="Script" id=4]
+
+[sub_resource type="Environment" id=2]
+background_mode = 4
+glow_intensity = 3.23
+glow_strength = 1.2
+glow_hdr_threshold = 0.43
+
+[node name="Main" type="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 1, 1, 1, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Test" type="Node2D" parent="."]
+visible = false
+
+[node name="TileMap" type="TileMap" parent="Test"]
+position = Vector2( 0, -4 )
+cell_size = Vector2( 16, 16 )
+format = 1
+
+[node name="neontest2" type="Sprite" parent="Test"]
+position = Vector2( 141, 105 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
+[node name="neontest1" type="Sprite" parent="Test"]
+position = Vector2( 308, 56 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 1 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
+script = ExtResource( 3 )
+
+[node name="Game" type="Node2D" parent="."]
+script = ExtResource( 4 )
+level_text = "000000000000000000000000
+000000000000000000000000
+000000000000000000000000
+000000000000144000000000
+000000000001141000000000
+000000000111141000000000
+000000000131111000000000
+000000000101131000000000
+000000000131111000000000
+000000000111112000000000
+000000000000000000000000
+000000000000000000000000
+000000000000000000000000
+000000000000000000000000"
