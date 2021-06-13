@@ -153,7 +153,7 @@ func _process(delta):
 		Transition.garage_up()
 		yield(Transition, "garage_up")
 		get_tree().reload_current_scene()
-	if Input.is_action_just_pressed("r"):
+	if Input.is_action_just_pressed("r") && won==false:
 		Transition.is_retry = true
 		Transition.garage_up()
 		yield(Transition, "garage_up")
@@ -235,6 +235,7 @@ func do_win():
 	$Win.play()
 	print("YAY WIN")
 	
+	
 	if Singleton.level_num == 1:
 		$Level1/Sign.playing = true
 		Song.play()
@@ -248,6 +249,7 @@ func do_win():
 			
 	if Singleton.level_num == Singleton.levels.size()+1:
 		$LastLevel/AnimatedSprite.animation="activated"
+		Song.stop()
 		return
 		
 	Transition.garage_up()

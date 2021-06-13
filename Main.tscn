@@ -212,6 +212,7 @@ texture = ExtResource( 56 )
 
 [node name="Move" type="AudioStreamPlayer" parent="Game"]
 stream = ExtResource( 13 )
+volume_db = -9.516
 
 [node name="Attach" type="AudioStreamPlayer" parent="Game"]
 stream = ExtResource( 15 )
@@ -286,6 +287,7 @@ animation = "boot"
 script = ExtResource( 57 )
 
 [node name="Sprite" type="Sprite" parent="Game/Level1/Sign"]
+position = Vector2( 0, 0.5 )
 z_index = -1
 texture = ExtResource( 91 )
 
@@ -295,7 +297,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Game/Level2"]
 position = Vector2( 248, 80 )
 frames = SubResource( 4 )
-frame = 8
+frame = 20
 playing = true
 
 [node name="LastLevel" type="Node2D" parent="Game"]
