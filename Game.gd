@@ -14,6 +14,8 @@ var finish_tscn = preload("res://Finish.tscn")
 var wall_tscn = preload("res://Wall.tscn")
 var square_object = preload("res://SquareObject.gd")
 
+var game_over_tscn = preload("res://GameOver.tscn")
+
 var explosion_tscn = preload("res://Explosion.tscn")
 enum {EMPTY, GROUND, PLAYER, BODY, FINISH}
 var WALL=EMPTY;
@@ -26,7 +28,19 @@ var player_parts = []
 
 var goal_count = 0
 
+var won = false
+
 func _ready():
+	
+	if Transition.garage_covering:
+		Transition.garage_down()
+	
+	if Singleton.level_num == 1:
+		$Level1.visible=true 
+	elif Singleton.level_num == 2:
+		$Level2.visible=true
+	
+	$Camera2D/UI/LevelNum.text = str(Singleton.level_num)
 	
 	if Singleton.level != "":
 		level_text = Singleton.level
@@ -96,11 +110,16 @@ func _process(delta):
 		OS.set_clipboard(level_text)
 	if Input.is_action_just_pressed("v"):
 		print(OS.get_clipboard())
+		Singleton.level_num=0
 		Singleton.level = OS.get_clipboard()
 	if Input.is_action_just_pressed("r"):
+		Transition.garage_up()
+		yield(Transition, "garage_up")
 		get_tree().reload_current_scene()
 		
 func attempt_move(x,y):
+	if won:
+		return
 	#must check that every body part not blocked to move to new spot
 	var safe_move=true
 	
@@ -161,7 +180,26 @@ func attempt_move(x,y):
 		$Camera2D.add_trauma(1.0)
 		
 func do_win():
+	won = true
+	$Win.play()
 	print("YAY WIN")
+	
+	if Singleton.level_num == 1:
+		$Level1/Sign.playing = true
+		yield(get_tree().create_timer(3.0), "timeout")
+		
+	Singleton.level_num += 1
+	if Singleton.level_num<Singleton.levels.size()+1:
+		print("LEVEL CHANGE BABY")
+		Singleton.level = Singleton.levels[Singleton.level_num-1]
+	
+	Transition.garage_up()
+	yield(Transition, "garage_up")
+	
+	if Singleton.level_num==Singleton.levels.size()+1:
+		get_tree().change_scene_to(game_over_tscn)
+		return
+	get_tree().reload_current_scene()
 	
 func grid_to_world(position):
 	return Vector2(position.x*square_size+square_size/2, position.y*square_size+square_size/2)

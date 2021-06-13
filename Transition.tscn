@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Transition.gd" type="Script" id=1]
+[ext_resource path="res://garage.png" type="Texture" id=2]
+
+[node name="Transition" type="Sprite"]
+position = Vector2( 192, 108 )
+z_index = 20
+texture = ExtResource( 2 )
+script = ExtResource( 1 )
