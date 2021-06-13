@@ -33,25 +33,27 @@ var won = false
 func _ready():
 	
 	if Transition.garage_covering:
+		yield(get_tree().create_timer(.5), "timeout")
 		Transition.garage_down()
-	
-	if Singleton.level_num == 1:
-		$Level1.visible=true 
-	elif Singleton.level_num == 2:
-		$Level2.visible=true
 	
 	$Camera2D/UI/LevelNum.text = str(Singleton.level_num)
 	
 	if Singleton.level != "":
 		level_text = Singleton.level
-	elif OS.has_feature('JavaScript'):
+	if OS.has_feature('JavaScript'):
 		var potential_level = JavaScript.eval(""" 
 				var url_string = window.location.href;
 				var url = new URL(url_string);
 				url.searchParams.get("level");
 			""")
 		if potential_level:
+			Singleton.level_num = -1
 			level_text = potential_level
+			
+	if Singleton.level_num == 1:
+		$Level1.visible=true 
+	elif Singleton.level_num == 2:
+		$Level2.visible=true
 		
 		
 	var level_1_line = level_text.replace("\n","")
@@ -110,8 +112,11 @@ func _process(delta):
 		OS.set_clipboard(level_text)
 	if Input.is_action_just_pressed("v"):
 		print(OS.get_clipboard())
-		Singleton.level_num=0
+		Singleton.level_num=-1
 		Singleton.level = OS.get_clipboard()
+		Transition.garage_up()
+		yield(Transition, "garage_up")
+		get_tree().reload_current_scene()
 	if Input.is_action_just_pressed("r"):
 		Transition.garage_up()
 		yield(Transition, "garage_up")
@@ -188,10 +193,11 @@ func do_win():
 		$Level1/Sign.playing = true
 		yield(get_tree().create_timer(3.0), "timeout")
 		
-	Singleton.level_num += 1
-	if Singleton.level_num<Singleton.levels.size()+1:
-		print("LEVEL CHANGE BABY")
-		Singleton.level = Singleton.levels[Singleton.level_num-1]
+	if Singleton.level_num != -1:
+		Singleton.level_num += 1
+		if Singleton.level_num<Singleton.levels.size()+1:
+			print("LEVEL CHANGE BABY")
+			Singleton.level = Singleton.levels[Singleton.level_num-1]
 	
 	Transition.garage_up()
 	yield(Transition, "garage_up")

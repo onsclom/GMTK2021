@@ -1,4 +1,4 @@
-[gd_scene load_steps=95 format=2]
+[gd_scene load_steps=96 format=2]
 
 [ext_resource path="res://new_dynamicfont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://tiles/ui/Title/idle/title30.png" type="Texture" id=2]
@@ -51,7 +51,7 @@
 [ext_resource path="res://tiles/ui/Title/idle/title26.png" type="Texture" id=49]
 [ext_resource path="res://tiles/ui/arrow/arrowon.png" type="Texture" id=50]
 [ext_resource path="res://tiles/ui/Title/boot/title37.png" type="Texture" id=51]
-[ext_resource path="res://tiles/ui/Title/boot/title33.png" type="Texture" id=52]
+[ext_resource path="res://title33.png" type="Texture" id=52]
 [ext_resource path="res://tiles/ui/Title/boot/title35.png" type="Texture" id=53]
 [ext_resource path="res://tiles/ui/Title/boot/title36.png" type="Texture" id=54]
 [ext_resource path="res://tiles/ui/Title/boot/title34.png" type="Texture" id=55]
@@ -90,6 +90,7 @@
 [ext_resource path="res://tiles/ui/help/retry/retry25.png" type="Texture" id=88]
 [ext_resource path="res://tiles/ui/help/retry/retry26.png" type="Texture" id=89]
 [ext_resource path="res://tiles/ui/help/retry/retry27.png" type="Texture" id=90]
+[ext_resource path="res://signshadow.png" type="Texture" id=91]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -269,13 +270,17 @@ frames = SubResource( 3 )
 animation = "boot"
 script = ExtResource( 57 )
 
+[node name="Sprite" type="Sprite" parent="Game/Level1/Sign"]
+z_index = -1
+texture = ExtResource( 91 )
+
 [node name="Level2" type="Node2D" parent="Game"]
 visible = false
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Game/Level2"]
 position = Vector2( 248, 80 )
 frames = SubResource( 4 )
-frame = 4
+frame = 29
 playing = true
 
 [node name="TileBackground" type="Sprite" parent="."]

@@ -1,5 +1,5 @@
 extends Sprite
-var bottom = Vector2(192,326)
+var bottom = Vector2(192,326+16)
 var middle = Vector2(192, 108) 
 # Called when the node enters the scene tree for the first time.
 
