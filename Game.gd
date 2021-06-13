@@ -24,6 +24,8 @@ var blocks = []
 var player_part_object = preload("res://PlayerPart.gd")
 var player_parts = []
 
+var goal_count = 0
+
 func _ready():
 	
 	if Singleton.level != "":
@@ -41,7 +43,6 @@ func _ready():
 	var level_1_line = level_text.replace("\n","")
 	level_1_line = level_1_line.replace("\r\n","")
 	level_1_line = level_1_line.replace("\r","")
-	print(level_1_line)
 	
 	Singleton.rng.set_seed(int(level_1_line)*96.125)
 
@@ -76,6 +77,7 @@ func _ready():
 					new_finish.position = Vector2(x*square_size+square_size/2, y*square_size+square_size/2)
 					add_child(new_finish)
 					level[y][x].node = new_finish
+					goal_count += 1
 				_:
 					print("unrecognized??")
 				
@@ -99,8 +101,6 @@ func _process(delta):
 		get_tree().reload_current_scene()
 		
 func attempt_move(x,y):
-	print(x)
-	
 	#must check that every body part not blocked to move to new spot
 	var safe_move=true
 	
@@ -114,6 +114,7 @@ func attempt_move(x,y):
 			safe_move = false
 		
 	if safe_move:
+		var goals_covered = 0
 		var new_body_parts=[]
 		#go through all player parts and update them
 		for part in player_parts:
@@ -122,6 +123,9 @@ func attempt_move(x,y):
 			
 			part.position = Vector2(new_x, new_y)
 			part.node.set_target( grid_to_world(part.position) )
+			
+			if level[new_y][new_x].tile_type == FINISH:
+				goals_covered += 1
 			
 			#readd original
 			new_body_parts.push_back( player_part_object.new(Vector2(new_x,new_y), part.node) )
@@ -133,6 +137,7 @@ func attempt_move(x,y):
 				if level[check_y][check_x].tile_type == BODY:
 					level[check_y][check_x].tile_type = EMPTY
 					print("JOINED")
+					$Attach.play()
 					
 					#create spark inbetween two spots
 					var new_explosion = explosion_tscn.instance()
@@ -146,8 +151,17 @@ func attempt_move(x,y):
 						level[check_y][check_x].node) )
 					level[check_y][check_x].node.activate(neighbor)
 		player_parts = new_body_parts
+		
+		$Move.play()
+		if goals_covered == goal_count:
+			do_win()
 	else:
+		$BadMove.play()
 		print("not a safe move!")
+		$Camera2D.add_trauma(1.0)
+		
+func do_win():
+	print("YAY WIN")
 	
 func grid_to_world(position):
 	return Vector2(position.x*square_size+square_size/2, position.y*square_size+square_size/2)

@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://art/animations/1/move1.png" type="Texture" id=1]
 [ext_resource path="res://Moveable.gd" type="Script" id=2]
 [ext_resource path="res://art/animations/1/move4.png" type="Texture" id=3]
 [ext_resource path="res://art/animations/1/move3.png" type="Texture" id=4]
 [ext_resource path="res://art/animations/1/move2.png" type="Texture" id=5]
+[ext_resource path="res://Dust.tscn" type="PackedScene" id=6]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -17,6 +18,9 @@ animations = [ {
 [node name="Player" type="Node2D"]
 z_index = 2
 script = ExtResource( 2 )
+player = true
+
+[node name="Dust" parent="." instance=ExtResource( 6 )]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )

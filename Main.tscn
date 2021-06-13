@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://art/neontest1.png" type="Texture" id=1]
 [ext_resource path="res://art/neontest2.png" type="Texture" id=2]
@@ -12,6 +12,9 @@
 [ext_resource path="res://tiles/ui/test UI2.png" type="Texture" id=10]
 [ext_resource path="res://tiles/ui/test UI1.png" type="Texture" id=11]
 [ext_resource path="res://tiles/ui/test UI3.png" type="Texture" id=12]
+[ext_resource path="res://audio/move.wav" type="AudioStream" id=13]
+[ext_resource path="res://audio/badmove.wav" type="AudioStream" id=14]
+[ext_resource path="res://audio/Attach.wav" type="AudioStream" id=15]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -96,6 +99,15 @@ script = ExtResource( 9 )
 
 [node name="CameraTarget" type="Node2D" parent="Game"]
 position = Vector2( 192, 108 )
+
+[node name="Move" type="AudioStreamPlayer" parent="Game"]
+stream = ExtResource( 13 )
+
+[node name="Attach" type="AudioStreamPlayer" parent="Game"]
+stream = ExtResource( 15 )
+
+[node name="BadMove" type="AudioStreamPlayer" parent="Game"]
+stream = ExtResource( 14 )
 
 [node name="TileBackground" type="Sprite" parent="."]
 position = Vector2( 192, 108 )

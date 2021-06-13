@@ -2,11 +2,13 @@ extends Node2D
 
 var prev_position
 var new_target
-
+export var player = false
 var time_since_moved = Singleton.move_animation_time
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if not player:
+		$Dust.emitting = false
 	pass # Replace with function body.
 
 
@@ -37,6 +39,8 @@ func activate(neighbor):
 	
 	$Connect.visible = true
 	$Connect.playing = true
+	
+	$Dust.emitting = true
 
 
 func _on_Connect_animation_finished():
