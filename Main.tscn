@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=2]
+[gd_scene load_steps=99 format=2]
 
 [ext_resource path="res://new_dynamicfont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://tiles/ui/Title/idle/title30.png" type="Texture" id=2]
@@ -91,6 +91,8 @@
 [ext_resource path="res://tiles/ui/help/retry/retry26.png" type="Texture" id=89]
 [ext_resource path="res://tiles/ui/help/retry/retry27.png" type="Texture" id=90]
 [ext_resource path="res://signshadow.png" type="Texture" id=91]
+[ext_resource path="res://FinalSign/endsign2.png" type="Texture" id=92]
+[ext_resource path="res://FinalSign/endsign1.png" type="Texture" id=93]
 
 [sub_resource type="SpriteFrames" id=2]
 animations = [ {
@@ -124,6 +126,19 @@ animations = [ {
 "loop": true,
 "name": "default",
 "speed": 15.0
+} ]
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ ExtResource( 93 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+}, {
+"frames": [ ExtResource( 92 ) ],
+"loop": true,
+"name": "activated",
+"speed": 5.0
 } ]
 
 [sub_resource type="Environment" id=1]
@@ -280,8 +295,16 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Game/Level2"]
 position = Vector2( 248, 80 )
 frames = SubResource( 4 )
-frame = 29
+frame = 26
 playing = true
+
+[node name="LastLevel" type="Node2D" parent="Game"]
+visible = false
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="Game/LastLevel"]
+position = Vector2( 192, 79 )
+z_index = 4
+frames = SubResource( 5 )
 
 [node name="TileBackground" type="Sprite" parent="."]
 position = Vector2( 192, 108 )

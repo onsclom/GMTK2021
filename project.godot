@@ -28,6 +28,7 @@ config/icon="res://icon.png"
 
 Singleton="*res://Singleton.gd"
 Transition="*res://Transition.tscn"
+Song="*res://Song.tscn"
 
 [display]
 

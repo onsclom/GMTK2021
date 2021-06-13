@@ -1,5 +1,9 @@
 extends Node2D
 
+var grid_position
+var body_parts = [self]
+var main_body_part
+
 var prev_position
 var new_target
 export var player = false

@@ -1,6 +1,8 @@
 extends Sprite
 var bottom = Vector2(192,326+16)
 var middle = Vector2(192, 108) 
+
+var is_retry = false
 # Called when the node enters the scene tree for the first time.
 
 signal garage_up
@@ -8,6 +10,8 @@ var garage_covering = false
 
 var going_up = false
 var total_time = 1.0
+var og_speed = 1.0
+var retry_speed = 0.5
 var time_since = total_time
 
 func _ready():
@@ -35,6 +39,12 @@ func _process(delta):
 		position = (time_since/total_time)*bottom+(1.0-(time_since/total_time))*middle
 
 func garage_up():
+	if is_retry:
+		is_retry = false
+		total_time = retry_speed
+	else:
+		total_time = og_speed
+	
 	time_since = 0
 	going_up = true
 	
