@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/250514__abro__garagedeur-electrisch1.mp3-93c1379057a9742a3942df4e217a9b9d.mp3str"
+
+[deps]
+
+source_file="res://audio/250514__abro__garagedeur-electrisch1.mp3"
+dest_files=[ "res://.import/250514__abro__garagedeur-electrisch1.mp3-93c1379057a9742a3942df4e217a9b9d.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

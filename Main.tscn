@@ -295,7 +295,7 @@ visible = false
 [node name="AnimatedSprite" type="AnimatedSprite" parent="Game/Level2"]
 position = Vector2( 248, 80 )
 frames = SubResource( 4 )
-frame = 26
+frame = 8
 playing = true
 
 [node name="LastLevel" type="Node2D" parent="Game"]

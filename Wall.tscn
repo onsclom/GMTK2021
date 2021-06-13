@@ -240,5 +240,5 @@ script = ExtResource( 9 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "12"
-frame = 20
+frame = 12
 playing = true

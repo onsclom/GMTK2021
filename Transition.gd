@@ -37,6 +37,11 @@ func _process(delta):
 		position = (time_since/total_time)*middle+(1.0-(time_since/total_time))*bottom
 	else:
 		position = (time_since/total_time)*bottom+(1.0-(time_since/total_time))*middle
+		
+	if position == bottom || position == middle:
+		$AudioStreamPlayer.stop()
+	elif $AudioStreamPlayer.playing == false:
+		$AudioStreamPlayer.play()
 
 func garage_up():
 	if is_retry:
