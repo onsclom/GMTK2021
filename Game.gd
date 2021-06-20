@@ -37,7 +37,6 @@ var goal_count = 0
 var won = false
 
 func _ready():
-	
 	if Transition.garage_covering:
 		yield(get_tree().create_timer(.5), "timeout")
 		Transition.garage_down()
@@ -109,24 +108,25 @@ func _ready():
 				
 
 func _process(delta):
-	if Input.is_action_just_pressed("ui_left"):
-		attempt_move(-1,0)
-	elif Input.is_action_just_pressed("ui_right"):
-		attempt_move(1,0)
-	elif Input.is_action_just_pressed("ui_up"):
-		attempt_move(0,-1)
-	elif Input.is_action_just_pressed("ui_down"):
-		attempt_move(0,1)
+	if Transition.position != Transition.middle: 
+		if Input.is_action_just_pressed("ui_left"):
+			attempt_move(-1,0)
+		elif Input.is_action_just_pressed("ui_right"):
+			attempt_move(1,0)
+		elif Input.is_action_just_pressed("ui_up"):
+			attempt_move(0,-1)
+		elif Input.is_action_just_pressed("ui_down"):
+			attempt_move(0,1)
 		
 	
-	if Input.is_action_pressed("ui_left"):
-		dir_held_counts[0]+=delta
-	elif Input.is_action_pressed("ui_right"):
-		dir_held_counts[1]+=delta
-	elif Input.is_action_pressed("ui_up"):
-		dir_held_counts[2]+=delta
-	elif Input.is_action_pressed("ui_down"):
-		dir_held_counts[3]+=delta
+		if Input.is_action_pressed("ui_left"):
+			dir_held_counts[0]+=delta
+		elif Input.is_action_pressed("ui_right"):
+			dir_held_counts[1]+=delta
+		elif Input.is_action_pressed("ui_up"):
+			dir_held_counts[2]+=delta
+		elif Input.is_action_pressed("ui_down"):
+			dir_held_counts[3]+=delta
 	
 	for x in range(4):
 		if dir_held_counts[x] > initial_hold:
@@ -144,15 +144,15 @@ func _process(delta):
 	if Input.is_action_just_released("ui_down"):
 		dir_held_counts[3]=0
 		
-	if Input.is_action_just_pressed("c"):
-		OS.set_clipboard(level_text)
-	if Input.is_action_just_pressed("v"):
-		print(OS.get_clipboard())
-		Singleton.level_num=-1
-		Singleton.level = OS.get_clipboard()
-		Transition.garage_up()
-		yield(Transition, "garage_up")
-		get_tree().reload_current_scene()
+#	if Input.is_action_just_pressed("c"):
+#		OS.set_clipboard(level_text)
+#	if Input.is_action_just_pressed("v"):
+#		print(OS.get_clipboard())
+#		Singleton.level_num=-1
+#		Singleton.level = OS.get_clipboard()
+#		Transition.garage_up()
+#		yield(Transition, "garage_up")
+#		get_tree().reload_current_scene()
 	if Input.is_action_just_pressed("r") && won==false:
 		Transition.is_retry = true
 		Transition.garage_up()

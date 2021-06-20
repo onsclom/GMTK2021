@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://LevelGenerate.gd" type="Script" id=1]
+[ext_resource path="res://ShakeCamera.gd" type="Script" id=3]
+[ext_resource path="res://audio/connect.wav" type="AudioStream" id=4]
+[ext_resource path="res://audio/badmove.wav" type="AudioStream" id=5]
+[ext_resource path="res://audio/move.wav" type="AudioStream" id=6]
+[ext_resource path="res://art/tilebackground.png" type="Texture" id=7]
+[ext_resource path="res://audio/complete.wav" type="AudioStream" id=8]
+
+[node name="LevelGenerator" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Game" type="Node2D" parent="."]
+script = ExtResource( 1 )
+lower_finish_count = 5
+upper_finish_count = 8
+auto_step_time = 0.025
+
+[node name="Camera2D" type="Camera2D" parent="Game"]
+position = Vector2( 192, 108 )
+current = true
+script = ExtResource( 3 )
+target = NodePath("../Position2D")
+
+[node name="Move" type="AudioStreamPlayer" parent="Game"]
+stream = ExtResource( 6 )
+volume_db = -9.516
+
+[node name="Attach" type="AudioStreamPlayer" parent="Game"]
+stream = ExtResource( 4 )
+
+[node name="BadMove" type="AudioStreamPlayer" parent="Game"]
+stream = ExtResource( 5 )
+
+[node name="Win" type="AudioStreamPlayer" parent="Game"]
+stream = ExtResource( 8 )
+
+[node name="Position2D" type="Position2D" parent="Game"]
+position = Vector2( 192, 108 )
+
+[node name="Stuck" type="Node2D" parent="Game"]
+visible = false
+z_index = 100
+
+[node name="asd" type="Label" parent="Game/Stuck"]
+visible = false
+margin_right = 206.0
+margin_bottom = 62.0
+text = "oh no stepbro im stuck"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TileBackground" type="Sprite" parent="."]
+position = Vector2( 192, 108 )
+z_index = -1
+texture = ExtResource( 7 )
